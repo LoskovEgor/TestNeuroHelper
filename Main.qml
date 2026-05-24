@@ -8,11 +8,10 @@ Window {
     visible: true
     title: qsTr("Webcam Stream (Qt 6)")
 
-    // CaptureSession связывает QVideoSink из C++ с визуальным компонентом
+    // CaptureSession управляет камерой и передаёт кадр в VideoOutput для отображения
     CaptureSession {
         id: session
-        videoSink: cameraCtrl.videoSink
-        // videoOutput:
+        camera: cameraCtrl.camera
         videoOutput: videoOut
     }
 
@@ -32,6 +31,34 @@ Window {
                 color: "white"
                 text: "Загрузка камеры..."
             }
+        }
+        
+        // Пример наложения графики поверх видео (индикация обнаруженных объектов)
+        // Координаты и размеры можно получать из C++ через сигналы
+        Rectangle {
+            // Этот прямоугольник будет виден поверх видео
+            // Его параметры можно привязать к свойствам из cameraCtrl
+            x: 50; y: 50
+            width: 150; height: 150
+            color: "transparent"
+            border.color: "red"
+            border.width: 3
+            visible: false // Включить, когда есть обнаруженные объекты
+            
+            Text {
+                anchors.top: parent.bottom
+                color: "red"
+                text: "Object detected"
+            }
+        }
+    }
+    
+    // Соединение для получения обработанных данных из C++
+    Connections {
+        target: cameraCtrl
+        function onFrameProcessed(data) {
+            // Обработка данных от C++ (например, координаты объектов)
+            console.log("Frame processed:", data)
         }
     }
 }
