@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Core Quick Multimedia)
+find_package(OpenCV REQUIRED)
 
 qt_standard_project_setup(REQUIRES 6.8)
 
@@ -17,7 +18,9 @@ qt_add_qml_module(apptest_qml
     URI test_qml
     QML_FILES
         Main.qml
-        SOURCES cameracontroller.h
+    SOURCES 
+        cameracontroller.h
+        # cameracontroller_opencv.h  # Раскомментировать при использовании OpenCV версии
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
@@ -36,6 +39,7 @@ target_link_libraries(apptest_qml
     Qt6::Core
     Qt6::Quick
     Qt6::Multimedia
+    ${OpenCV_LIBS}  # Подключение библиотек OpenCV
 )
 
 include(GNUInstallDirs)
