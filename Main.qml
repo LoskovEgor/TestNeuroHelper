@@ -6,7 +6,7 @@ Window {
     width: 640
     height: 480
     visible: true
-    title: qsTr("Webcam Stream (Qt 6)")
+
 
     // CaptureSession управляет камерой и передаёт кадр в VideoOutput для отображения
     CaptureSession {
@@ -16,7 +16,7 @@ Window {
     }
 
     VideoOutput {
-        id: videoOut
+        id: videoOutput
         anchors.fill: parent
         fillMode: VideoOutput.PreserveAspectFit
 
